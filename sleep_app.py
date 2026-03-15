@@ -1,102 +1,185 @@
 import streamlit as st
 
+# PAGE CONFIG
+st.set_page_config(page_title="Student Sleep Health Analyzer", page_icon="🌙")
+
+# SIMPLE COLOR STYLE
+st.markdown("""
+<style>
+body {
+    background-color: #F7F9FC;
+}
+h1, h2, h3 {
+    color: #2C6E91;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 # Language selection
 language = st.selectbox("Select Language / ഭാഷ തിരഞ്ഞെടുക്കുക", ["English", "Malayalam"])
 
 # Text dictionary
 text = {
-    "English": {
-        "title": "Rural Student Sleep Support Tool",
-        "name": "Enter your name",
-        "sleep": "How many hours do you sleep per night?",
-        "phone": "Night phone usage (hours)",
-        "travel": "Daily school travel time (minutes)",
-        "analyze": "Analyze Sleep Health",
-        "results": "Results",
-        "stress": "Stress Level",
-        "score": "Stress Score",
-        "plan": "Weekly Recovery Plan",
-        "habits": "Habit Tracker",
-        "caption": "Educational sleep awareness tool for students.",
 
-        "excellent": "Sleep Health: Excellent",
-        "fair": "Sleep Health: Fair",
-        "risk": "Sleep Health: At Risk",
-        "highrisk": "Sleep Health: High Risk",
+"English": {
 
-        "recommend": "Recommended tonight: sleep",
-        "great": "Great! Your sleep meets the recommended level.",
+"title": "Student Sleep Health Analyzer",
 
-        "phonewarn": "Late-night phone use may be affecting sleep.",
-        "travelwarn": "Long travel time may require earlier bedtime.",
+"desc": """
+A simple digital wellness tool designed to help students understand how
+sleep, phone usage, and travel fatigue affect stress and academic focus.
+""",
 
-        "focuswarn": "Low sleep may affect memory and study focus.",
+"name": "Enter your name",
 
-        "habit1": "Sleep before 11 PM",
-        "habit2": "Avoid phone 1 hour before sleep",
-        "habit3": "Morning sunlight",
-        "habit4": "Exercise 20 minutes",
-        "habit5": "No caffeine after evening",
+"sleep": "How many hours do you sleep per night?",
 
-        "completed": "Habits completed",
+"phone": "Night phone usage (hours)",
 
-        "champ": "🏆 Sleep Champion",
-        "good": "⭐ Good Progress",
-        "keep": "⚡ Keep Building Healthy Habits",
-        "start": "Start building healthy sleep habits today"
-    },
+"travel": "Daily school travel time (minutes)",
 
-    "Malayalam": {
-        "title": "വിദ്യാർത്ഥികളുടെ ഉറക്ക ആരോഗ്യ സഹായ ഉപകരണം",
-        "name": "പേര് നൽകുക",
-        "sleep": "ഒരു രാത്രിയിൽ എത്ര മണിക്കൂർ ഉറങ്ങുന്നു?",
-        "phone": "രാത്രിയിലെ ഫോൺ ഉപയോഗം (മണിക്കൂർ)",
-        "travel": "സ്കൂളിലേക്കുള്ള യാത്ര സമയം (മിനിറ്റ്)",
-        "analyze": "ഉറക്ക ആരോഗ്യ വിശകലനം",
-        "results": "ഫലം",
-        "stress": "സമ്മർദ്ദ നില",
-        "score": "സമ്മർദ്ദ സ്കോർ",
-        "plan": "വാരാന്ത്യ മെച്ചപ്പെടുത്തൽ പദ്ധതി",
-        "habits": "ആരോഗ്യ ശീലങ്ങൾ",
-        "caption": "വിദ്യാർത്ഥികൾക്കുള്ള ഉറക്ക ബോധവൽക്കരണ ഉപകരണം.",
+"analyze": "Analyze Sleep Health",
 
-        "excellent": "ഉറക്ക ആരോഗ്യം: വളരെ നല്ലത്",
-        "fair": "ഉറക്ക ആരോഗ്യം: ശരാശരി",
-        "risk": "ഉറക്ക ആരോഗ്യം: ശ്രദ്ധ ആവശ്യം",
-        "highrisk": "ഉറക്ക ആരോഗ്യം: ഉയർന്ന അപകടസാധ്യത",
+"results": "Results",
 
-        "recommend": "ഇന്ന് രാത്രി കൂടുതൽ ഉറങ്ങാൻ ശ്രമിക്കുക:",
-        "great": "നന്നായി! നിങ്ങളുടെ ഉറക്കം ശുപാർശ ചെയ്ത നിലവാരത്തിലാണ്.",
+"stress": "Stress Level",
 
-        "phonewarn": "രാത്രിയിൽ ഫോൺ ഉപയോഗം ഉറക്കത്തെ ബാധിക്കാം.",
-        "travelwarn": "ദീർഘമായ യാത്ര സമയത്തിന് മുമ്പേ ഉറങ്ങേണ്ടിവരും.",
+"score": "Stress Score",
 
-        "focuswarn": "കുറഞ്ഞ ഉറക്കം പഠനത്തിൽ ശ്രദ്ധ കുറയ്ക്കാം.",
+"plan": "Weekly Recovery Plan",
 
-        "habit1": "11 മണിക്ക് മുമ്പ് ഉറങ്ങുക",
-        "habit2": "ഉറങ്ങാൻ 1 മണിക്കൂർ മുമ്പ് ഫോൺ ഒഴിവാക്കുക",
-        "habit3": "പ്രഭാത സൂര്യപ്രകാശം",
-        "habit4": "20 മിനിറ്റ് വ്യായാമം",
-        "habit5": "വൈകുന്നേരത്തിന് ശേഷം കഫെയ്ൻ ഒഴിവാക്കുക",
+"habits": "Habit Tracker",
 
-        "completed": "പൂർത്തിയാക്കിയ ശീലങ്ങൾ",
+"caption": "Educational sleep awareness tool for students.",
 
-        "champ": "🏆 ഉറക്ക ചാമ്പ്യൻ",
-        "good": "⭐ നല്ല പുരോഗതി",
-        "keep": "⚡ ആരോഗ്യ ശീലങ്ങൾ തുടരുക",
-        "start": "ആരോഗ്യകരമായ ഉറക്ക ശീലങ്ങൾ തുടങ്ങുക"
-    }
+"excellent": "Sleep Health: Excellent",
+
+"fair": "Sleep Health: Fair",
+
+"risk": "Sleep Health: At Risk",
+
+"highrisk": "Sleep Health: High Risk",
+
+"recommend": "Recommended tonight: sleep",
+
+"great": "Great! Your sleep meets the recommended level.",
+
+"phonewarn": "Late-night phone use may be affecting sleep.",
+
+"travelwarn": "Long travel time may require earlier bedtime.",
+
+"focuswarn": "Low sleep may affect memory and study focus.",
+
+"habit1": "Sleep before 11 PM",
+
+"habit2": "Avoid phone 1 hour before sleep",
+
+"habit3": "Morning sunlight",
+
+"habit4": "Exercise 20 minutes",
+
+"habit5": "No caffeine after evening",
+
+"completed": "Habits completed",
+
+"champ": "🏆 Sleep Champion",
+
+"good": "⭐ Good Progress",
+
+"keep": "⚡ Keep Building Healthy Habits",
+
+"start": "Start building healthy sleep habits today"
+
+},
+
+"Malayalam": {
+
+"title": "വിദ്യാർത്ഥികളുടെ ഉറക്ക ആരോഗ്യ വിശകലന ഉപകരണം",
+
+"desc": """
+ഉറക്കം, ഫോൺ ഉപയോഗം, യാത്ര ക്ഷീണം എന്നിവ വിദ്യാർത്ഥികളുടെ
+സമ്മർദ്ദത്തെയും പഠന ശ്രദ്ധയെയും എങ്ങനെ ബാധിക്കുന്നു എന്ന് മനസ്സിലാക്കാൻ
+സഹായിക്കുന്ന ഒരു ഡിജിറ്റൽ ഉപകരണം.
+""",
+
+"name": "പേര് നൽകുക",
+
+"sleep": "ഒരു രാത്രിയിൽ എത്ര മണിക്കൂർ ഉറങ്ങുന്നു?",
+
+"phone": "രാത്രിയിലെ ഫോൺ ഉപയോഗം (മണിക്കൂർ)",
+
+"travel": "സ്കൂളിലേക്കുള്ള യാത്ര സമയം (മിനിറ്റ്)",
+
+"analyze": "ഉറക്ക ആരോഗ്യ വിശകലനം",
+
+"results": "ഫലം",
+
+"stress": "സമ്മർദ്ദ നില",
+
+"score": "സമ്മർദ്ദ സ്കോർ",
+
+"plan": "വാരാന്ത്യ മെച്ചപ്പെടുത്തൽ പദ്ധതി",
+
+"habits": "ആരോഗ്യ ശീലങ്ങൾ",
+
+"caption": "വിദ്യാർത്ഥികൾക്കുള്ള ഉറക്ക ബോധവൽക്കരണ ഉപകരണം.",
+
+"excellent": "ഉറക്ക ആരോഗ്യം: വളരെ നല്ലത്",
+
+"fair": "ഉറക്ക ആരോഗ്യം: ശരാശരി",
+
+"risk": "ഉറക്ക ആരോഗ്യം: ശ്രദ്ധ ആവശ്യം",
+
+"highrisk": "ഉറക്ക ആരോഗ്യം: ഉയർന്ന അപകടസാധ്യത",
+
+"recommend": "ഇന്ന് രാത്രി കൂടുതൽ ഉറങ്ങാൻ ശ്രമിക്കുക:",
+
+"great": "നന്നായി! നിങ്ങളുടെ ഉറക്കം ശുപാർശ ചെയ്ത നിലവാരത്തിലാണ്.",
+
+"phonewarn": "രാത്രിയിൽ ഫോൺ ഉപയോഗം ഉറക്കത്തെ ബാധിക്കാം.",
+
+"travelwarn": "ദീർഘമായ യാത്ര സമയത്തിന് മുമ്പേ ഉറങ്ങേണ്ടിവരും.",
+
+"focuswarn": "കുറഞ്ഞ ഉറക്കം പഠനത്തിൽ ശ്രദ്ധ കുറയ്ക്കാം.",
+
+"habit1": "11 മണിക്ക് മുമ്പ് ഉറങ്ങുക",
+
+"habit2": "ഉറങ്ങാൻ 1 മണിക്കൂർ മുമ്പ് ഫോൺ ഒഴിവാക്കുക",
+
+"habit3": "പ്രഭാത സൂര്യപ്രകാശം",
+
+"habit4": "20 മിനിറ്റ് വ്യായാമം",
+
+"habit5": "വൈകുന്നേരത്തിന് ശേഷം കഫെയ്ൻ ഒഴിവാക്കുക",
+
+"completed": "പൂർത്തിയാക്കിയ ശീലങ്ങൾ",
+
+"champ": "🏆 ഉറക്ക ചാമ്പ്യൻ",
+
+"good": "⭐ നല്ല പുരോഗതി",
+
+"keep": "⚡ ആരോഗ്യ ശീലങ്ങൾ തുടരുക",
+
+"start": "ആരോഗ്യകരമായ ഉറക്ക ശീലങ്ങൾ തുടങ്ങുക"
+
+}
 }
 
 t = text[language]
 
+# TITLE
 st.title(t["title"])
+st.markdown(t["desc"])
 
+
+# USER INPUT
 name = st.text_input(t["name"])
 sleep = st.slider(t["sleep"], 0.0, 12.0, 7.0)
 phone_use = st.slider(t["phone"], 0.0, 6.0, 2.0)
 travel = st.slider(t["travel"], 0, 120, 30)
 
+# ANALYSIS
 if st.button(t["analyze"]):
 
     sleep_debt = max(0, 8 - sleep)
@@ -112,7 +195,6 @@ if st.button(t["analyze"]):
         stress = "Healthy"
 
     st.subheader(t["results"])
-
     st.write("Name:", name)
     st.write(t["stress"], ":", stress)
     st.write(t["score"], ":", stress_score)
@@ -125,26 +207,30 @@ if st.button(t["analyze"]):
         st.warning(t["risk"])
     else:
         st.error(t["highrisk"])
-st.subheader("Academic Focus Prediction")
 
-if sleep < 5:
-    st.error("Very low focus expected in school today.")
-elif sleep < 6:
-    st.warning("Reduced concentration and memory expected.")
-elif sleep < 7:
-    st.info("Moderate focus level.")
-else:
-    st.success("Good cognitive performance expected today.")
+    # Academic focus prediction
+    st.subheader("Academic Focus Prediction")
 
-st.subheader("Study Planning Suggestion")
+    if sleep < 5:
+        st.error("Very low focus expected in school today.")
+    elif sleep < 6:
+        st.warning("Reduced concentration expected.")
+    elif sleep < 7:
+        st.info("Moderate focus level.")
+    else:
+        st.success("Good cognitive performance expected.")
 
-if sleep < 6:
-    st.write("Today focus on light revision instead of heavy study.")
-elif sleep < 7:
-    st.write("Good day for moderate study sessions.")
-else:
-    st.write("Great day for learning new topics.")
+    # Study planning
+    st.subheader("Study Planning Suggestion")
 
+    if sleep < 6:
+        st.write("Today focus on light revision instead of heavy study.")
+    elif sleep < 7:
+        st.write("Good day for moderate study sessions.")
+    else:
+        st.write("Great day for learning new topics.")
+
+    # Sleep recommendation
     target_sleep = 8
     sleep_gap = target_sleep - sleep
 
@@ -162,16 +248,7 @@ else:
     if sleep < 6:
         st.warning(t["focuswarn"])
 
-    st.subheader(t["plan"])
-
-    if sleep < 6:
-        st.write("Day 1-2: Sleep 30 minutes earlier.")
-        st.write("Day 3-4: Reduce phone usage at night.")
-        st.write("Day 5-7: Aim for 7–8 hours sleep.")
-    else:
-        st.write("Maintain your current sleep routine.")
-st.info("Tip: Try to maintain the same sleep time every night for better concentration.")
-
+# Habit Tracker
 st.subheader(t["habits"])
 
 habit1 = st.checkbox(t["habit1"])
@@ -183,7 +260,6 @@ habit5 = st.checkbox(t["habit5"])
 habits_done = sum([habit1, habit2, habit3, habit4, habit5])
 
 st.write(t["completed"], habits_done, "/5")
-
 st.progress(habits_done / 5)
 
 if habits_done == 5:
