@@ -273,3 +273,5 @@ else:
     st.error(t["start"])
 
 st.caption(t["caption"])
+st.markdown("### Give Feedback")
+st.markdown("[Student Feedback Form](YOUR_GOOGLE_FORM_LINK)")
