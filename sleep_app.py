@@ -274,4 +274,4 @@ else:
 
 st.caption(t["caption"])
 st.markdown("### Give Feedback")
-st.markdown("[Student Feedback Form](YOUR_GOOGLE_FORM_LINK)")
+st.markdown("[Student Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLSdvJfg6Bz4Zvn4NjEJ_h6gfYOxLzEaS3bbI8YavTcqaZ8rPiw/viewform?usp=sf_link)")
