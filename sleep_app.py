@@ -1,9 +1,18 @@
 import streamlit as st
 
-# PAGE CONFIG
+# Hide the Streamlit watermark/footer
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+# Page Configuration
 st.set_page_config(page_title="Student Sleep Health Analyzer", page_icon="🌙")
 
-# SIMPLE COLOR STYLE
+# Simple Color Style
 st.markdown("""
 <style>
 body {
@@ -168,18 +177,18 @@ sleep, phone usage, and travel fatigue affect stress and academic focus.
 
 t = text[language]
 
-# TITLE
+# Title
 st.title(t["title"])
 st.markdown(t["desc"])
 
 
-# USER INPUT
+# User Input
 name = st.text_input(t["name"])
 sleep = st.slider(t["sleep"], 0.0, 12.0, 7.0)
 phone_use = st.slider(t["phone"], 0.0, 6.0, 2.0)
 travel = st.slider(t["travel"], 0, 120, 30)
 
-# ANALYSIS
+# Analysis
 if st.button(t["analyze"]):
 
     sleep_debt = max(0, 8 - sleep)
