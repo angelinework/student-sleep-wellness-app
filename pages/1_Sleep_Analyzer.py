@@ -110,29 +110,30 @@ travel = st.slider(t["travel"], 0, 120, 30)
 
 if st.button(t["analyze"]):
 
-    sleep_debt = max(0, 8 - sleep)
-    stress_score = int(sleep_debt * 12)
+    # --- PSS-10 Inspired Stress Score (0–40 scale) ---
+    sleep_factor = max(0, 8 - sleep) * 3.5
+    phone_factor = phone_use * 2
+    travel_factor = (travel / 60) * 2
 
-    if sleep < 5:
-        stress = "Very High"
-    elif sleep < 6:
-        stress = "High"
-    elif sleep < 7:
+    stress_score = int(min(40, sleep_factor + phone_factor + travel_factor))
+
+    # PSS-10 category mapping
+    if stress_score <= 13:
+        stress = "Low"
+    elif stress_score <= 26:
         stress = "Moderate"
     else:
-        stress = "Healthy"
+        stress = "High"
 
     st.subheader(t["results"])
     st.write("Name:", name)
     st.write(t["stress"], ":", stress)
     st.write(t["score"], ":", stress_score)
 
-    if stress_score < 20:
+    if stress_score <= 13:
         st.success(t["excellent"])
-    elif stress_score < 40:
+    elif stress_score <= 26:
         st.info(t["fair"])
-    elif stress_score < 70:
-        st.warning(t["risk"])
     else:
         st.error(t["highrisk"])
 
